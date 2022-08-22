@@ -4,84 +4,84 @@ class Ascensor:
 
     def moverse(self, dir='s'):
         if dir.lower() == 's':
-            if self.pisoActual < 10:
-                print(f'\nsubiendo, piso {self.pisoActual}')
-                self.pisoActual += 1
-            else:
-                print('no puede subir más')
+            self.pisoActual += 1
+            print(f'\nsubiendo, piso {self.pisoActual}')
         if dir.lower() == 'b':
-            if self.pisoActual > 1:
-                print(f'\nbajando, piso {self.pisoActual}')
-                self.pisoActual -= 1
-            else:
-                print('no puede bajar más')
+            self.pisoActual -= 1
+            print(f'\nbajando, piso {self.pisoActual}')
 
-ascNorte = Ascensor()
-ascSur = Ascensor()
+norte = Ascensor()
+sur = Ascensor()
 
-def opcN_S():
-    posUsuario = int(input('ingrese su ubicación [1: Norte, 2: Sur] ==>> '))
-    return posUsuario
+def inicialN(norte, pisoUsuario):
+    while norte.pisoActual < pisoUsuario:
+        norte.moverse('s')
+    print(f'\nestamos en el piso {norte.pisoActual}')
 
-posUsuario = opcN_S()
+def subiendoN(norte, destinoUsuario):
+    while norte.pisoActual < destinoUsuario:
+        norte.moverse('s')
+    print(f'\nestamos en el piso {norte.pisoActual}')
 
-# norte
-def actualN(ascNorte):
-    print(f'\npiso {ascNorte.pisoActual}, llegamos <<==\n')
+def bajandoN(norte, destinoUsuario):
+    while norte.pisoActual > destinoUsuario:
+        norte.moverse('b')
+    print(f'\nestamos en el piso {norte.pisoActual}')
 
-def destinoN(ascNorte, actual, destinoUsuario, finUsuario):
-    if destinoUsuario  == 's':
-        while ascNorte.pisoActual < finUsuario:
-            ascNorte.moverse('s')
-        actual(ascNorte)
-    elif destinoUsuario == 'b':
-        while ascNorte.pisoActual > finUsuario:
-            ascNorte.moverse('b')
-        actual(ascNorte)
+def inicialS(sur, pisoUsuario):
+    while sur.pisoActual < pisoUsuario:
+        sur.moverse('s')
+    print(f'\nestamos en el piso {sur.pisoActual}')
 
-def inicialN(ascNorte, actual, pisoUsuario):
-    while pisoUsuario > ascNorte.pisoActual:
-        ascNorte.moverse('s')
-    actual(ascNorte)
+def subiendoS(sur, destinoUsuario):
+    while sur.pisoActual < destinoUsuario:
+        sur.moverse('s')
+    print(f'\nestamos en el piso {sur.pisoActual}')
 
-# sur
-def actualS(ascSur):
-    print(f'\npiso {ascSur.pisoActual}, llegamos\n')
+def bajandoS(sur, destinoUsuario):
+    while sur.pisoActual > destinoUsuario:
+        sur.moverse('b')
+    print(f'\nestamos en el piso {sur.pisoActual}')
 
-def destinoS(ascSur, actual, destinoUsuario, finUsuario):
-    if destinoUsuario  == 's':
-        while ascSur.pisoActual < finUsuario:
-            ascSur.moverse('s')
-        actual(ascSur)
-    elif destinoUsuario == 'b':
-        while ascSur.pisoActual > finUsuario:
-            ascSur.moverse('b')
-        actual(ascSur)
+def error():
+    print(f'\n?, no fume cochinadas')
 
-def inicialS(ascSur, actual, pisoUsuario):
-    while pisoUsuario > ascSur.pisoActual:
-        ascSur.moverse('s')
-    actual(ascSur)
+ubicacion  = int(input('va a usar cuál ascensor?, 1 para norte, 2 para sur: '))
 
-# generales
-def eleccion():
-    destinoUsuario = input('baja o sube?: ')
-    finUsuario = int(input('\na que piso va? '))
-    return destinoUsuario,finUsuario
+if ubicacion == 1:
+    pisoUsuario = int(input('\nen qué piso está ubicado?: '))
 
-def remate():
-    nombre = input('tu nombre es?: ')
-    despedida = print(f'\nregresa pronto, {nombre}')
+    if pisoUsuario >= 2 and pisoUsuario <= 10:
+        inicialN(norte, pisoUsuario)
 
-if posUsuario == 1:
-    pisoUsuario = int(input('\nen qué piso está?: '))
-    inicialN(ascNorte, actualN, pisoUsuario)
-    destinoUsuario, finUsuario = eleccion()
-    destinoN(ascNorte, actualN, destinoUsuario, finUsuario)
-    remate()
-elif posUsuario == 2:
-    pisoUsuario = int(input('\nen qué piso está?: '))
-    inicialS(ascSur, actualS, pisoUsuario)
-    destinoUsuario, finUsuario = eleccion()
-    destinoS(ascSur, actualS, destinoUsuario, finUsuario)
-    remate()
+        rumboUsuario = input('\nsube o baja?: ')
+        destinoUsuario = int(input('\npara qué piso va?: '))
+
+        if rumboUsuario == 's' and destinoUsuario >= 2 and destinoUsuario <= 10:
+            subiendoN(norte, destinoUsuario)
+        elif rumboUsuario == 'b' and destinoUsuario >= 1 and destinoUsuario <= 10:
+            bajandoN(norte, destinoUsuario)
+        else:
+            error()
+
+    else:
+        error()
+    
+elif ubicacion == 2:
+    pisoUsuario = int(input('\nen qué piso está ubicado?: '))
+
+    if pisoUsuario >= 2 and pisoUsuario <= 10:
+        inicialS(sur, pisoUsuario)
+
+        rumboUsuario = input('\nsube o baja?: ')
+        destinoUsuario = int(input('\npara qué piso va?: '))
+
+        if rumboUsuario == 's' and destinoUsuario >= 2 and destinoUsuario <= 10:
+            subiendoS(sur, destinoUsuario)
+        elif rumboUsuario == 'b' and destinoUsuario >= 1 and destinoUsuario <= 10:
+            bajandoS(sur, destinoUsuario)
+        else:
+            error()
+
+    else:
+        error()
